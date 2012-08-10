@@ -68,7 +68,7 @@ extern "C" {
   XX( -1, UNKNOWN, "unknown error")                                           \
   XX(  0, OK, "success")                                                      \
   XX(  1, EOF, "end of file")                                                 \
-  XX(  2, EADDRINFO, "getaddrinfo error")                                     \
+  XX(  2, EAI_SYSTEM, "getaddrinfo error")                                    \
   XX(  3, EACCES, "permission denied")                                        \
   XX(  4, EAGAIN, "no more processes")                                        \
   XX(  5, EADDRINUSE, "address already in use")                               \
@@ -107,9 +107,9 @@ extern "C" {
   XX( 39, EPROTOTYPE, "protocol wrong type for socket")                       \
   XX( 40, ETIMEDOUT, "connection timed out")                                  \
   XX( 41, ECHARSET, "")                                                       \
-  XX( 42, EAIFAMNOSUPPORT, "")                                                \
-  XX( 44, EAISERVICE, "")                                                     \
-  XX( 45, EAISOCKTYPE, "")                                                    \
+  XX( 42, EAI_FAMILY, "")                                                     \
+  XX( 44, EAI_SERVICE, "")                                                    \
+  XX( 45, EAI_SOCKTYPE, "")                                                   \
   XX( 46, ESHUTDOWN, "")                                                      \
   XX( 47, EEXIST, "file already exists")                                      \
   XX( 48, ESRCH, "no such process")                                           \
@@ -131,6 +131,13 @@ typedef enum {
   UV_MAX_ERRORS
 } uv_err_code;
 #undef UV_ERRNO_GEN
+
+/* back-compat */
+#define UV_EAIFAMNOSUPPORT  UV_EAI_FAMILY
+#define UV_EADDRINFO        UV_EAI_SYSTEM
+#define UV_EAISOCKTYPE      UV_EAI_SOCKTYPE
+#define UV_EAISERVICE       UV_EAI_SERVICE
+
 
 #define UV_HANDLE_TYPE_MAP(XX)                                                \
   XX(ASYNC, async)                                                            \
