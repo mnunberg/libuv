@@ -62,6 +62,17 @@ static void uv__signal_global_init(void) {
     abort();
 }
 
+__attribute__((destructor))
+static void uv__signal_global_dtor(void) {
+  int i;
+  int *fdp = uv__signal_lock_pipefd;
+
+  for (i = 0; i < 2; i++) {
+    if (fdp[i] > -1) {
+        close(fdp[i]);
+    }
+  }
+}
 
 void uv__signal_global_once_init(void) {
   pthread_once(&uv__signal_global_init_guard, uv__signal_global_init);
